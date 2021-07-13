@@ -6,16 +6,13 @@ from keystoneauth1 import loading
 from keystoneauth1 import session
 from novaclient import client
 import datetime
+import json
 
 
-
-
-
-
-connect_nova_api(user=None,password=None,nova_api=None,project_name=None,auth_url=None):
+def connect_nova_api(user=None,password=None,nova_api=None,project_name=None,auth_url=None):
   loader = loading.get_plugin_loader('password')
   auth = loader.load_from_options(auth_url=auth_url,
-                                 username=username,
+                                 username=user,
                                  password=password,
                                  project_name=project_name, 
                                  user_domain_id="default", 
@@ -25,10 +22,10 @@ connect_nova_api(user=None,password=None,nova_api=None,project_name=None,auth_ur
   nova = client.Client(nova_api, session=sess)
   return nova
 
-show_usage(n=None,start_date=None,end_date=None):
-  intances_summary=n.usage.list(detailed=True,start=datetime.datetime(2021,4,1),end=datetime.datetime.now())
-  print(intances_summary[0]._info)
-
+def show_usage(n=None,start_date=None,end_date=None):
+  instances_summary=n.usage.list(detailed=True,start=datetime.datetime(2021,4,1),end=datetime.datetime.now())
+  print(instances_summary[0]._info['tenant_id'])
+  
 
 def main():
     parser = argparse.ArgumentParser(description='Get OpenStack usage stats')
@@ -56,11 +53,13 @@ def main():
                           password=args.password,
                           nova_api=args.nova_api,
                           project_name=args.project_name,
-                          auth_url=args.auth_url,
-                          start_date=args.start_date,
-                          end_date=args.end_date)
+                          auth_url=args.auth_url)
+      show_usage(n=cn,
+              start_date=args.start_date,
+              end_date=args.end_date)
+
     elif args.action == "store":
-        print args.user
+      print(args.user)
 
 
 if __name__ == "__main__":
