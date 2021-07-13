@@ -10,6 +10,10 @@ This is a mini-tool to download the usage statistics (RAM, CPU, DISK) of all Ope
 
 **Example:**
 
-``python osus.py show -u mparra -p "mipassXXX" -nv "2." -pn "spsrc" -au "https://spsrc-openstack.iaa.csic.es:5000"``
+``python osus.py show -u mparra -p "mipassXXX" -nv "2.1" -pn "my_project_a" -au "https://auth"``
+
+**Ad-hoc SRC:**
+
+``python osus.py show -u "mparra" -p "mipassXXX" -nv "2.1" -pn "spsrc" -au "https://spsrc-openstack.iaa.csic.es:5000"``
 
 
