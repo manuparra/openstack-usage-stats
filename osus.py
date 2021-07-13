@@ -7,7 +7,7 @@ from keystoneauth1 import session
 from novaclient import client
 import datetime
 import json
-
+import datetime as DT
 
 def connect_nova_api(user=None,password=None,nova_api=None,project_name=None,auth_url=None):
   loader = loading.get_plugin_loader('password')
@@ -23,14 +23,7 @@ def connect_nova_api(user=None,password=None,nova_api=None,project_name=None,aut
   return nova
 
 def show_usage(n=None,start_date=None,end_date=None):
-  instances_summary=n.usage.list(detailed=True,start=datetime.datetime(2021,4,1),end=datetime.datetime.now())
-  #print(instances_summary[0]._info['start']," to ", instances_summary[0]._info['stop'])
-  #print("total_local_gb_usage:",instances_summary[0]._info['total_local_gb_usage'])
-  #print("total_vcpus_usage:",instances_summary[0]._info['total_vcpus_usage'])
-  #print("total_memory_mb_usage:",instances_summary[0]._info['total_memory_mb_usage'])
-  #print("total_hours:",instances_summary[0]._info['total_hours'])
-  #for s in instances_summary[0]._info['server_usages']:
-  #    print("%s %s")
+  instances_summary=n.usage.list(detailed=True,start=start_date,end=end_date)
   print (instances_summary[0]._info)
 
 def main():
@@ -60,12 +53,22 @@ def main():
                           nova_api=args.nova_api,
                           project_name=args.project_name,
                           auth_url=args.auth_url)
+      if args.start_date == None:
+        end_c = DT.date.today()
+        end = datetime.datetime(end_c.year,end_c.month,end_c.day)
+        start_c = end_c - DT.timedelta(days=7)
+        start = datetime.datetime(start_c.year,start_c.month,start_c.day)
+      else:
+        start=datetime.datetime.strptime(args.start_date, "%Y-%m-%d")
+        end=datetime.datetime.strptime(args.end_date, "%Y-%m-%d")
+     
       show_usage(n=cn,
-              start_date=args.start_date,
-              end_date=args.end_date)
+              start_date=start,
+              end_date=end)
 
     elif args.action == "store":
-      print(args.user)
+      pass
+      
 
 
 if __name__ == "__main__":
