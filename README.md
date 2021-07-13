@@ -6,5 +6,10 @@ This is a mini-tool to download the usage statistics (RAM, CPU, DISK) of all Ope
 
 **Run:**
 
-python osus.py show -u <username> -p "<password>" -nv "<version>" -pn "<project_name>" -au "<auth_>"
+``python osus.py show -u <username> -p "<password>" -nv "<version>" -pn "<project_name>" -au "<auth_>"``
+
+**Example:**
+
+``python osus.py show -u mparra -p "mipassXXX" -nv "2." -pn "spsrc" -au "https://spsrc-openstack.iaa.csic.es:5000"``
+
 
