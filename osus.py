@@ -24,8 +24,14 @@ def connect_nova_api(user=None,password=None,nova_api=None,project_name=None,aut
 
 def show_usage(n=None,start_date=None,end_date=None):
   instances_summary=n.usage.list(detailed=True,start=datetime.datetime(2021,4,1),end=datetime.datetime.now())
-  print(instances_summary[0]._info['tenant_id'])
-  
+  #print(instances_summary[0]._info['start']," to ", instances_summary[0]._info['stop'])
+  #print("total_local_gb_usage:",instances_summary[0]._info['total_local_gb_usage'])
+  #print("total_vcpus_usage:",instances_summary[0]._info['total_vcpus_usage'])
+  #print("total_memory_mb_usage:",instances_summary[0]._info['total_memory_mb_usage'])
+  #print("total_hours:",instances_summary[0]._info['total_hours'])
+  #for s in instances_summary[0]._info['server_usages']:
+  #    print("%s %s")
+  print (instances_summary[0]._info)
 
 def main():
     parser = argparse.ArgumentParser(description='Get OpenStack usage stats')
